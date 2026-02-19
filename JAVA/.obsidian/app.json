@@ -1,0 +1,8 @@
+{
+  "alwaysUpdateLinks": true,
+  "showUnsupportedFiles": true,
+  "attachmentFolderPath": "./images",
+  "promptDelete": false,
+  "readableLineLength": true,
+  "showLineNumber": false
+}
