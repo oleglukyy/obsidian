@@ -92,7 +92,7 @@ HAVING SUM(p.cantidad)>(
 #### Actividad 2
 
 ```
-Lista aquellas gamas de productos donde **todos** sus productos tienen un stock actual inferior a la media de stock global de la empresa.
+Lista aquellas gamas de productos donde **todos** sus productos tienen un stock actual inferior a la media de stock global de la empresa.
 ```
 
 ```mysql
@@ -249,11 +249,76 @@ Lista las oficinas que tienen al menos un empleado asignado para cada una de las
 ```
 
 ```mysql
+SELECT o.id,COUNT(DISTINCT eg.idGama)
+FROM oficinas o 
+INNER JOIN empleados e ON e.idOficina=o.id
+INNER JOIN empleadosGamas eg ON eg.idEmpleado=e.id
+GROUP BY o.id
+HAVING COUNT(DISTINCT eg.idGama)=15;
 ```
+#### Actividad 12
+
+```
+Identifica a los clientes que siempre compran productos de la misma gama (sus pedidos nunca han contenido productos de gamas diferentes).
+```
+
+```mysql
+FROM clientes c
+INNER JOIN pedidos pe ON pe.idCliente=c.id
+INNER JOIN detallesPedidos dp ON dp.idPedido=pe.id
+INNER JOIN productos pr ON pr.id=dp.idProducto
+GROUP BY c.id
+HAVING COUNT(DISTINCT pr.idGama)=1;
+```
+```
+#### Actividad 13
+
+```
+Muestra el nombre de los productos que representan más del 10% del stock total de su propia gama pero cuyas ventas suponen menos del 1% de las ventas totales de la empresa.
+```
+
+```mysql
+POR HACER 
+```
+#### Actividad 14
+
+```
+Muestra el nombre del empleado cuyos clientes realizan pagos con la mayor frecuencia (menor tiempo medio entre pagos).
+```
+
+```mysql
+SELECT e.nombre,AVG(DATEDIFF((SELECT p1.fecha
+                            FROM pagos p1
+                       		INNER JOIN clientes c1 ON c1.id=p1.idCliente
+                            WHERE p1.fecha>p.fecha and c1.id=c.id 
+                       		ORDER BY p1.fecha 
+                            LIMIT 1
+                            ),
+                      p.fecha
+                   )
+          )
+FROM empleados e
+INNER JOIN clientes c 
+	ON c.idEmpleado=e.id
+INNER JOIN pagos p 
+	ON p.idCliente=c.id
+GROUP BY e.nombre
+ORDER BY AVG(DATEDIFF((SELECT p1.fecha 
+                            FROM pagos p1
+                       		INNER JOIN clientes c1 ON c1.id=p1.idCliente
+                            WHERE p1.fecha>p.fecha and c1.id=c.id 
+                       		ORDER BY p1.fecha 
+                            LIMIT 1 
+                            ),
+                      p.fecha
+                   )
+          );
+```
+
 #### Actividad 26
 
 ```
-Identifica a los empleados que atienden a clientes que han comprado productos de una gama en la que el propio empleado NO posee ninguna especialidad técnica registrada en la tabla `empleadosGamas`.
+Identifica a los empleados que atienden a clientes que han comprado productos de una gama en la que el propio empleado NO posee ninguna especialidad técnica registrada en la tabla `empleadosGamas`.
 ```
 
 ```mysql
