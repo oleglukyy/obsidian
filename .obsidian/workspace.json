@@ -1,0 +1,194 @@
+{
+  "main": {
+    "id": "896e7c808361b6c8",
+    "type": "split",
+    "children": [
+      {
+        "id": "4a70b1253fc1e230",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "1be38533b61b6184",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "SQL/MariaDB/ACT_UD_5/Actividades finales.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Actividades finales"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "a22816a1ba362574",
+    "type": "split",
+    "children": [
+      {
+        "id": "9e3d0d5f9153e868",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "f94ec29f4e44395e",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Explorador de archivos"
+            }
+          },
+          {
+            "id": "fd3e46ad21bdb82b",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Buscar"
+            }
+          },
+          {
+            "id": "0150d0f8d4084553",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Marcadores"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "15468996764f6746",
+    "type": "split",
+    "children": [
+      {
+        "id": "134a189edb91f139",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "59fc599642c5d6e3",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "SQL/MariaDB/ACT_UD_5/Actividades finales.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Enlaces entrantes de Actividades finales"
+            }
+          },
+          {
+            "id": "707d5196d2aa52f4",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "SQL/MariaDB/ACT_UD_5/Actividades finales.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Enlaces salientes de Actividades finales"
+            }
+          },
+          {
+            "id": "8f6aa0c8da7384b5",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Etiquetas"
+            }
+          },
+          {
+            "id": "e275ed4e0cbd9f24",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "Todas las propiedades"
+            }
+          },
+          {
+            "id": "94d5c3b3f1e5a57f",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "SQL/MariaDB/ACT_UD_5/Actividades finales.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Esquema de Actividades finales"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Abrir selector rápido": false,
+      "graph:Abrir vista gráfica": false,
+      "canvas:Crear nuevo lienzo": false,
+      "daily-notes:Abrir la nota de hoy": false,
+      "templates:Insertar plantilla": false,
+      "command-palette:Abrir paleta de comandos": false,
+      "bases:Crear nueva base": false
+    }
+  },
+  "active": "1be38533b61b6184",
+  "lastOpenFiles": [
+    "SQL/MariaDB/ACT_UD_5/Actividades finales.md",
+    "SQL/MariaDB/ACT_UD_5/Prácticas 02.md",
+    "SQL/MariaDB/ACT_UD_5/Prácticas 01.md",
+    "SQL/MariaDB/ACT_UD_5/Script ventas.md",
+    "SQL/MariaDB/ACT_UD_5/Prácticas 05.md"
+  ]
+}

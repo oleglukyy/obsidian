@@ -164,7 +164,7 @@ WHERE eg.nivel='Experto' AND NOT EXISTS(
       AND p.idGama = eg.idGama)
 
 ```
-#### Actividad 6
+#### Actividad 6 NO HECHO
 
 ```
 Para cada pedido, muestra qué porcentaje del importe total del pedido corresponde a cada producto incluido en él.
@@ -178,6 +178,77 @@ INNER JOIN detallesPedidos dp
 INNER JOIN productos pr 
 	ON pr.id=dp.idProducto
 ORDER BY pe.id
+```
+#### Actividad 7
+
+```
+Muestra las ciudades de los clientes ordenadas por el importe total de ventas generadas, incluyendo solo aquellas cuya suma supere los 2000€.
+```
+
+```mysql
+SELECT c.ciudad , SUM(p.cantidad) AS total_ventas
+FROM clientes c
+INNER JOIN pagos p
+	ON c.id=p.idCliente
+GROUP BY c.ciudad
+HAVING SUM(p.cantidad)>2000
+ORDER BY total_ventas;
+```
+#### Actividad 8
+
+```
+Muestra el nombre de las gamas que no tienen ningún empleado con nivel 'Experto' asignado en ninguna oficina de España.
+```
+
+```mysql
+SELECT DISTINCT g.nombre 
+FROM gamas g 
+INNER JOIN empleadosGamas dg
+	ON dg.idGama=g.id
+WHERE NOT EXISTS(SELECT 1
+                      FROM empleados e1
+                      INNER JOIN empleadosGamas eg
+                      	ON eg.idEmpleado=e1.id
+                 	INNER JOIN oficinas o 
+                 		ON o.id=e1.idOficina
+                      WHERE eg.nivel="Experto" AND eg.idGama=g.id AND o.pais="España")
+```
+#### Actividad 9
+
+```
+Muestra el ID de los clientes que realizaron más pedidos en el año 2025 que en el año 2026.
+```
+
+```mysql
+SELECT c.id
+FROM clientes c 
+INNER JOIN pedidos p 
+	ON p.idCliente=c.id
+GROUP BY c.id
+HAVING COUNT(CASE WHEN YEAR(p.fecha)=2025 THEN 1 END)<COUNT(CASE WHEN YEAR(p.fecha)=2026 THEN 1 END);
+```
+#### Actividad 10
+
+```
+Obtén el ID del pedido que contiene el mayor número de productos distintos pertenecientes a gamas diferentes.
+```
+
+```mysql
+SELECT pe.id,COUNT(DISTINCT pr.idGama)
+FROM pedidos pe
+INNER JOIN detallesPedidos dp ON dp.idPedido=pe.id
+INNER JOIN productos pr ON pr.id=dp.idProducto 
+GROUP BY pe.id
+ORDER BY COUNT(DISTINCT pr.idGama) DESC
+LIMIT 1;
+```
+#### Actividad 11
+
+```
+Lista las oficinas que tienen al menos un empleado asignado para cada una de las 15 gamas existentes.
+```
+
+```mysql
 ```
 #### Actividad 26
 
