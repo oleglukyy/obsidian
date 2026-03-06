@@ -473,6 +473,30 @@ SELECT
         ELSE 'No existe ninguna gama que cumpla la condición'
     END AS Resultado;
 ```
+#### Actividad 23 POR HACER
+
+```
+Muestra las oficinas que tienen menos de dos empleados con nivel 'Experto' para una gama específica, a pesar de que esa misma gama representa más del 40% de los pedidos totales de los clientes asociados a esa oficina.
+```
+
+```mysql
+
+```
+#### Actividad 24
+```
+ Encuentra el producto más vendido (en cantidad total de unidades) por cada país donde la empresa tiene clientes registrados. El resultado debe mostrar el País, el Nombre del Producto y la Cantidad Total.
+```
+
+```mysql
+SELECT cl.pais, pr.nombre , SUM(dp.cantidad)  as VentasTotales
+FROM productos pr
+INNER JOIN detallespedidos dp ON dp.idProducto=pr.id
+INNER JOIN pedidos pe ON pe.id=dp.idPedido
+INNER JOIN clientes cl ON cl.id=pe.idCliente
+GROUP BY cl.pais ,pr.id
+HAVING MAX(VentasTotales)
+ORDER BY SUM(dp.cantidad) DESC
+```
 #### Actividad 27
 
 ```
