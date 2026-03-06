@@ -270,9 +270,7 @@ INNER JOIN productos pr ON pr.id=dp.idProducto
 GROUP BY c.id
 HAVING COUNT(DISTINCT pr.idGama)=1;
 ```
-```
 #### Actividad 13
-
 ```
 Muestra el nombre de los productos que representan más del 10% del stock total de su propia gama pero cuyas ventas suponen menos del 1% de las ventas totales de la empresa.
 ```
@@ -314,24 +312,166 @@ ORDER BY AVG(DATEDIFF((SELECT p1.fecha
                    )
           );
 ```
-
-#### Actividad 26
+#### Actividad 15
 
 ```
-Identifica a los empleados que atienden a clientes que han comprado productos de una gama en la que el propio empleado NO posee ninguna especialidad técnica registrada en la tabla `empleadosGamas`.
+Lista los empleados que atienden a clientes situados en países diferentes al país de la oficina donde el empleado trabaja.
 ```
 
 ```mysql
-SELECT c.nombre,
-		SUM(p.cantidad)-
-        (SELECT AVG(p1.cantidad) FROM pagos p1 
-		INNER JOIN clientes c1
-		ON c1.id=p1.idCliente
-		WHERE c1.ciudad=c.ciudad)
-FROM clientes c
-INNER JOIN pagos p 
-	ON p.idCliente=c.id
+SELECT e.nombre
+FROM empleados e 
+INNER JOIN clientes c ON c.idEmpleado=e.id
+INNER JOIN oficinas o ON o.id=e.idOficina
+WHERE o.pais!=c.pais
+```
+#### Actividad 16
+
+```
+Muestra las gamas cuyo precio medio de producto es superior al precio medio de los productos de la gama 'Herramientas'.
+```
+
+```mysql
+SELECT g.nombre
+FROM gamas g 
+INNER JOIN productos p ON g.id=p.idGama
+HAVING AVG(p.precio)>(SELECT AVG(p1.precio) 
+                      FROM productos p1
+                      	INNER JOIN gamas g1 ON g1.id=p1.idGama
+						
+                      	WHERE g1.nombre='Herramientas'
+                     	)
+```
+#### Actividad 17
+
+```
+Calcula el promedio de los importes totales de los pedidos (debes sumar cada pedido y luego promediar esos totales).
+```
+
+```mysql
+SELECT AVG(aux.sumaProductos)
+FROM (SELECT SUM(dp1.cantidad*dp1.precioUnidad) as sumaProductos 
+    	FROM detallesPedidos dp1
+		INNER JOIN pedidos p1 
+    		ON  dp1.idPedido=p1.id
+    	GROUP BY dp1.idPedido
+		) aux
+```
+#### Actividad 18
+
+```
+Muestra los clientes que han comprado **todos** los productos existentes de la gama 'Aromáticas'.
+```
+
+```mysql
+SELECT c.nombre
+FROM clientes c 
+INNER JOIN pedidos pe ON pe.idCliente=c.id
+INNER JOIN detallesPedidos dp ON dp.idPedido=pe.id
+INNER JOIN productos pr ON pr.id=dp.idProducto
+INNER JOIN gamas g ON g.id=pr.idGama
+WHERE g.nombre="Aromáticas"
 GROUP BY c.nombre
+HAVING COUNT(DISTINCT pr.id)=(SELECT COUNT(*)
+                             FROM productos p1
+                              INNER JOIN gamas g1 ON g1.id=p1.idGama 
+                             WHERE g1.nombre="Aromáticas")
+```
+#### Actividad 19
+
+```
+Para cada oficina, calcula el porcentaje de sus clientes que tienen pedidos realizados pero ningún pago registrado hasta el momento.
+```
+
+```mysql
+SELECT  
+	o.id AS idOficina,  
+	100 * SUM(CASE WHEN pa.idCliente IS NULL THEN 1 ELSE 0 END) /
+	COUNT(DISTINCT c.id) AS porcentaje  
+FROM oficinas o  
+INNER JOIN empleados e ON e.idOficina = o.id  
+INNER JOIN clientes c ON c.idEmpleado = e.id  
+INNER JOIN pedidos p ON p.idCliente = c.id  
+LEFT JOIN pagos pa ON pa.idCliente = c.id  
+GROUP BY o.id;
+```
+#### Actividad 20
+
+```
+Lista los productos cuyo precio registrado en la tabla `detallesPedidos` ha sido, en alguna ocasión, inferior al 80% del precio actual de catálogo en la tabla `productos`.
+```
+
+```mysql
+SELECT DISTINCT dp.idProducto
+FROM detallesPedidos dp
+INNER JOIN productos pr
+ON pr.id=dp.idProducto
+WHERE dp.precioUnidad<pr.precio*0.8
+```
+#### Actividad 21
+
+```
+Encuentra aquellos productos que se han vendido en pedidos diferentes con una variación de precio superior al 50% entre el precio más bajo y el más alto registrados en la tabla `detallesPedidos`.
+```
+
+```mysql
+SELECT dp.idProducto
+FROM detallesPedidos dp
+GROUP BY dp.idProducto
+HAVING MAX(dp.precioUnidad)-MIN(dp.precioUnidad)>MAX(dp.precioUnidad)*0.5
+		AND COUNT(DISTINCT dp.idPedido) > 1
+```
+#### Actividad 22 DUDA SI QUITO G.id
+
+```
+Identifica si existe alguna gama de productos donde un solo cliente haya comprado más del 70% de todas las unidades vendidas de esa gama (en comparación con el total de unidades vendidas de dicha gama a todos los clientes).
+```
+
+```mysql
+REVISAR: 
+SELECT g.id
+FROM gamas g
+INNER JOIN productos pr ON pr.idGama=g.id
+INNER JOIN detallesPedidos dp ON dp.idProducto=pr.id
+INNER JOIN pedidos pe ON pe.id=dp.idPedido
+INNER JOIN clientes c ON c.id=pe.idCliente
+GROUP BY g.id,c.id
+HAVING SUM(dp.cantidad)>(SELECT SUM(dp1.cantidad) 
+                   FROM detallesPedidos dp1
+                   INNER JOIN productos pr1 ON pr1.id=dp1.idProducto
+                   WHERE pr1.idGama=g.id)*0.7;
+                   
+NO REVISAR:
+FROM productos pr
+INNER JOIN detallesPedidos dp ON dp.idProducto = pr.id
+INNER JOIN pedidos pe ON pe.id = dp.idPedido
+INNER JOIN clientes c ON c.id = pe.idCliente
+GROUP BY pr.idGama, c.id
+HAVING SUM(dp.cantidad) > (
+    SELECT SUM(dp2.cantidad)
+    FROM detallesPedidos dp2
+    INNER JOIN productos pr2 ON pr2.id = dp2.idProducto
+    WHERE pr2.idGama = pr.idGama
+) * 0.7;
+
+CUMPLIENDO ENUNCIADO:
+SELECT 
+    CASE 
+        WHEN EXISTS (
+            SELECT 1
+            FROM productos pr
+            INNER JOIN detallesPedidos dp ON dp.idProducto = pr.id
+            INNER JOIN pedidos pe ON pe.id = dp.idPedido
+            GROUP BY pr.idGama, pe.idCliente
+            HAVING SUM(dp.cantidad) > (
+                SELECT SUM(dp2.cantidad)
+                FROM detallesPedidos dp2
+                INNER JOIN productos pr2 ON pr2.id = dp2.idProducto
+                WHERE pr2.idGama = pr.idGama
+            ) * 0.7
+        ) THEN 'Sí existe una gama con un cliente dominante'
+        ELSE 'No existe ninguna gama que cumpla la condición'
+    END AS Resultado;
 ```
 #### Actividad 27
 
