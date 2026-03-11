@@ -497,8 +497,24 @@ GROUP BY cl.pais ,pr.id
 HAVING MAX(VentasTotales)
 ORDER BY SUM(dp.cantidad) DESC
 ```
-#### Actividad 27
+#### Actividad 25
+```
+ Lista los productos que han tenido un balance negativo de unidades, asumiendo que los pedidos con estado 'Entregado' suman ventas y los pedidos 'Rechazados' restan (devoluciones).
+```
+```mysql
+use ventas;
+SELECT pr.id
+FROM productos pr
+INNER JOIN detallesPedidos dp ON dp.idProducto=pr.id
+INNER JOIN pedidos pe ON pe.id=dp.idPedido
 
+GROUP BY pr.id
+HAVING SUM(CASE WHEN pe.estado="Entregado" THEN dp.cantidad
+          		WHEN pe.estado="Rechazado" THEN -dp.cantidad
+          ELSE 0
+          END)<0
+#### Actividad 27
+```
 ```
 Para cada cliente, muestra su nombre y la diferencia entre su gasto total y la media de gasto de los clientes de su misma ciudad.
 ```
